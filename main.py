@@ -1,110 +1,21 @@
-
-# Importações
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from Scrapper import Scrapper
 from bs4 import BeautifulSoup
 
-# Configurações do WebDriver
-options = webdriver.ChromeOptions()
-options.add_argument('--ignore-certificate-errors')
-options.add_argument('--ignore-ssl-errors')
-driver = webdriver.Chrome(options=options)
+def main():
+    # URL da página
+    url = "https://animecenterbr.com/youkoso-jitsuryoku-prologo-vol-1/"
 
-# URL da página
-url = "https://animecenterbr.com/youkoso-jitsuryoku-light-novel-pt-br"
+    # Instancia classe
+    scrapper = Scrapper(url)
 
-# Carrega a página
-driver.get(url)
-# Define função para aguardar renderização do body
-def render_body_content(seconds=10):
-    # Espera até que o body seja carregado na página
-    wait = WebDriverWait(driver, seconds)
-    try:
-        wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
-    except Exception as e:
-        print("TimeoutException:", e)
+    html_content = scrapper.list_elements_by_css_selector("post-text-content")
 
-# Define função para retornar uma lista de elementos de determinadas tags
-def list_elements_by_tag_name(tag):
-    # Renderiza body
-    render_body_content()
+    soup = BeautifulSoup(html_content, "html.parser")
 
-    # Encontra todas as tags procuradas na página
-    tags = driver.find_elements(By.TAG_NAME, tag)
+    for title in soup.find_all("h2"):
+        print(title)
 
-    # Cria variável para armazenar tags
-    values = []
+    scrapper.close_driver()
 
-    # Armazena cada elemento na lista de valores
-    for element in tags:
-        values.append(element.get_attribute("outerHTML"))
-
-    return values
-
-# Define função para retornar uma lista de elementos de determinada css selector
-def list_elements_by_css_selector(selector):
-    # Renderiza body
-    render_body_content()
-
-    # Encontra todas as tags procuradas na página através do css selector
-    tags = driver.find_elements(By.CSS_SELECTOR, selector)
-
-    # Cria variável para armazenar tags
-    values = []
-
-    # Armazena cada elemento na lista de valores
-    for element in tags:
-        values.append(element.get_attribute("outerHTML"))
-
-    return values
-
-# Define função para retornar uma lista de elementos de determinadas classes
-def list_elements_by_class(class_name):
-    # Renderiza body
-    render_body_content()
-
-    # Encontra todos os elementos com a classe especificada na página
-    elements = driver.find_elements(By.CSS_SELECTOR, f".{class_name}")
-
-    # Cria variável para armazenar os elementos
-    values = []
-
-    # Armazena cada elemento na lista de valores
-    for element in elements:
-        values.append(element.get_attribute("outerHTML"))
-
-    # Retorna a lista de valores concatenada em uma única string
-    return '\n'.join(values)
-
-# Obtém o HTML dos elementos
-html_elements = list_elements_by_css_selector("span strong, ul")
-
-# Inicializa a lista de spans
-spans = []
-
-# Inicializa a lista de links
-links = []
-
-# Agrupa os spans e listas de links
-for html_element in html_elements:
-    print(html_element)
-    # Parseia o elemento HTML
-    soup = BeautifulSoup(html_element, 'html.parser')
-    if soup.name == 'span':
-        if spans:
-            spans[-1]['links'] = links
-            links = []  # Limpa a lista de links para o próximo grupo
-        spans.append({'span': str(soup), 'links': []})
-    elif soup.name == 'ul':
-        links.extend([str(link) for link in soup.find_all('a')])
-    
-# Imprime o resultado
-for group in spans:
-    print(group['span'])
-    for link in group['links']:
-        print(link)
-
-# Após a raspagem, fecha o navegador
-driver.quit()
+if __name__ == "__main__":
+    main()

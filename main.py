@@ -28,6 +28,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from bs4 import BeautifulSoup
 
 # Configurações do WebDriver
 options = webdriver.ChromeOptions()
@@ -50,8 +51,8 @@ def render_body_content(seconds=10):
     except Exception as e:
         print("TimeoutException:", e)
 
-# Define função para retornar uma lista de determinadas tags
-def list_tags(tag):
+# Define função para retornar uma lista de elementos de determinadas tags
+def list_tag_elements(tag):
     # Renderiza body
     render_body_content()
 
@@ -67,7 +68,29 @@ def list_tags(tag):
     
     return values
 
-print(list_tags("strong"))
+def list_css_selector_elements(selector):
+    # Renderiza body
+    render_body_content()
+
+    # Encontra todas as tags procuradas na página através do css selector
+    tags = driver.find_elements(By.CSS_SELECTOR, selector)
+
+    # Cria variável para armazenar tags
+    values = []
+    
+    # Armazena cada elemento na lista de valores
+    for element in tags:
+        values.append(element.get_attribute("outerHTML"))
+    
+    return values
+    
+# Obtém o HTML dos elementos
+html_elements = list_css_selector_elements("li>a")
+
+# Imprime o HTML formatado para cada elemento
+for html_element in html_elements:
+    soup = BeautifulSoup(html_element, 'html.parser')
+    print(soup.prettify()) 
 
 # Após a raspagem, feche o navegador
 driver.quit()

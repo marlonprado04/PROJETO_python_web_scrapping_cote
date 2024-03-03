@@ -36,7 +36,7 @@ options.add_argument('--ignore-certificate-errors')
 options.add_argument('--ignore-ssl-errors')
 driver = webdriver.Chrome(options=options)
 
-# URL da página da web que você deseja analisar
+# URL da página
 url = "https://animecenterbr.com/youkoso-jitsuryoku-light-novel-pt-br"
 
 # Carrega a página
@@ -68,6 +68,7 @@ def list_tag_elements(tag):
     
     return values
 
+# Define função para retornar uma lista de elementos de determinada css selector
 def list_css_selector_elements(selector):
     # Renderiza body
     render_body_content()
@@ -92,5 +93,5 @@ for html_element in html_elements:
     soup = BeautifulSoup(html_element, 'html.parser')
     print(soup.prettify()) 
 
-# Após a raspagem, feche o navegador
+# Após a raspagem, fecha o navegador
 driver.quit()

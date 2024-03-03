@@ -17,7 +17,6 @@ url = "https://animecenterbr.com/youkoso-jitsuryoku-light-novel-pt-br"
 
 # Carrega a página
 driver.get(url)
-
 # Define função para aguardar renderização do body
 def render_body_content(seconds=10):
     # Espera até que o body seja carregado na página
@@ -28,7 +27,7 @@ def render_body_content(seconds=10):
         print("TimeoutException:", e)
 
 # Define função para retornar uma lista de elementos de determinadas tags
-def list_tag_elements(tag):
+def list_elements_by_tag_name(tag):
     # Renderiza body
     render_body_content()
 
@@ -37,15 +36,15 @@ def list_tag_elements(tag):
 
     # Cria variável para armazenar tags
     values = []
-    
+
     # Armazena cada elemento na lista de valores
     for element in tags:
         values.append(element.get_attribute("outerHTML"))
-    
+
     return values
 
 # Define função para retornar uma lista de elementos de determinada css selector
-def list_css_selector_elements(selector):
+def list_elements_by_css_selector(selector):
     # Renderiza body
     render_body_content()
 
@@ -54,15 +53,33 @@ def list_css_selector_elements(selector):
 
     # Cria variável para armazenar tags
     values = []
-    
+
     # Armazena cada elemento na lista de valores
     for element in tags:
         values.append(element.get_attribute("outerHTML"))
-    
+
     return values
 
+# Define função para retornar uma lista de elementos de determinadas classes
+def list_elements_by_class(class_name):
+    # Renderiza body
+    render_body_content()
+
+    # Encontra todos os elementos com a classe especificada na página
+    elements = driver.find_elements(By.CSS_SELECTOR, f".{class_name}")
+
+    # Cria variável para armazenar os elementos
+    values = []
+
+    # Armazena cada elemento na lista de valores
+    for element in elements:
+        values.append(element.get_attribute("outerHTML"))
+
+    # Retorna a lista de valores concatenada em uma única string
+    return '\n'.join(values)
+
 # Obtém o HTML dos elementos
-html_elements = list_css_selector_elements("span strong, ul")
+html_elements = list_elements_by_css_selector("span strong, ul")
 
 # Inicializa a lista de spans
 spans = []

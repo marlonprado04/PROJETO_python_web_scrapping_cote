@@ -15,6 +15,10 @@ class Scrapper:
 
     # Define função para aguardar renderização do body
     def render_body_content(self, seconds=10):
+        
+        # Inicia web driver a partir da URL
+        self.driver.get(self.url)
+        
         # Espera até que o body seja carregado na página
         wait = WebDriverWait(self.driver, seconds)
         try:
@@ -77,15 +81,3 @@ class Scrapper:
     # Fecha o navegador
     def close_driver(self):
         self.driver.quit()
-
-# Instancia classe
-scrapper = Scrapper()
-
-html_content = scrapper.list_elements_by_css_selector(".post-text-content")
-
-soup = BeautifulSoup(html_content, "html.parser")
-
-for title in soup.find_all("h2"):
-    print(title)
-
-scrapper.close_driver()

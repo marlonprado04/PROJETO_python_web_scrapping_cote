@@ -2,11 +2,8 @@ from Scrapper import Scrapper
 from bs4 import BeautifulSoup
 
 def main():
-    # URL da página
-    url = "https://animecenterbr.com/youkoso-jitsuryoku-prologo-vol-1/"
-
     # Instancia classe
-    scrapper = Scrapper(url)
+    scrapper = Scrapper()
 
     html_content = scrapper.list_elements_by_css_selector("post-text-content")
 

@@ -23,6 +23,7 @@ https://animecenterbr.com/youkoso-jitsuryoku-vol-1-ss-horikita-uma-certa-manha-n
     
 """
 
+# Importações
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -40,20 +41,33 @@ url = "https://animecenterbr.com/youkoso-jitsuryoku-light-novel-pt-br"
 # Carrega a página
 driver.get(url)
 
-# Espera até que o body seja carregado na página
-wait = WebDriverWait(driver, 10)
-try:
-    wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'body')))
-except Exception as e:
-    print("TimeoutException:", e)
+# Define função para aguardar renderização do body
+def render_body_content(seconds=10):
+    # Espera até que o body seja carregado na página
+    wait = WebDriverWait(driver, seconds)
+    try:
+        wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+    except Exception as e:
+        print("TimeoutException:", e)
 
-# Encontra todos os links das tags <a> contidos nas <li>
-links = driver.find_elements(By.CSS_SELECTOR, '#post-1309 > div > div:nth-child(1) > div.col-12.col-lg-8.mb-3.order-2.order-lg-1 > div.row > div.col-12.col-xl-9.mb-3.order-1.order-xl-2 > div.post-text-content.my-3 > ul:nth-child(13) > li > a')
+# Define função para retornar uma lista de determinadas tags
+def list_tags(tag):
+    # Renderiza body
+    render_body_content()
 
-# Imprime os links
-for link in links:
-    print(link.get_attribute("href"))
+    # Encontra todas as tags procuradas na página
+    tags = driver.find_elements(By.TAG_NAME, tag)
+
+    # Cria variável para armazenar tags
+    values = []
+    
+    # Armazena cada elemento na lista de valores
+    for element in tags:
+        values.append(element.get_attribute("outerHTML"))
+    
+    return values
+
+print(list_tags("strong"))
 
 # Após a raspagem, feche o navegador
 driver.quit()
-

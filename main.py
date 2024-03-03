@@ -84,14 +84,34 @@ def list_css_selector_elements(selector):
         values.append(element.get_attribute("outerHTML"))
     
     return values
-    
-# Obtém o HTML dos elementos
-html_elements = list_css_selector_elements("li>a")
 
-# Imprime o HTML formatado para cada elemento
+# Obtém o HTML dos elementos
+html_elements = list_css_selector_elements("span strong, ul")
+
+# Inicializa a lista de spans
+spans = []
+
+# Inicializa a lista de links
+links = []
+
+# Agrupa os spans e listas de links
 for html_element in html_elements:
+    print(html_element)
+    # Parseia o elemento HTML
     soup = BeautifulSoup(html_element, 'html.parser')
-    print(soup.prettify()) 
+    if soup.name == 'span':
+        if spans:
+            spans[-1]['links'] = links
+            links = []  # Limpa a lista de links para o próximo grupo
+        spans.append({'span': str(soup), 'links': []})
+    elif soup.name == 'ul':
+        links.extend([str(link) for link in soup.find_all('a')])
+    
+# Imprime o resultado
+for group in spans:
+    print(group['span'])
+    for link in group['links']:
+        print(link)
 
 # Após a raspagem, fecha o navegador
 driver.quit()

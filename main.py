@@ -1,27 +1,3 @@
-"""
-Opção de passos 1:
-1. Código acessa a página raiz contendo todos os links dos capítulos
-2. Código varre e agrupa todos os links de acordo com a seção do volume específico
-3. Código acessa cada link individualmente, renderiza o HTML e faz o scrapping do texto e imagem formatado
-4. Código cria arquivo .ODT e salva as imagens e textos formatados no arquivo criado (com o nome do capítulo)
-5. Código retorna para etapa 1
-
-
-Opção de passos 2:
-
-1. Usuário vai copiar a URL específica que deseja fazer download (pois são muitas variações possíveis, impossível de colocar no código)
-2. Código renderiza o HTML e faz o scrapping do texto e imagem formatado
-3. Código cria arquivo .ODT e salva as imagens e textos formatados no arquivo criado (com o nome do capítulo)
-4. Usuário retorna para etapa 1
-
-
-Links de exemplo:
-
-https://animecenterbr.com/youkoso-jitsuryoku-prologo-vol-1/
-https://animecenterbr.com/youkoso-jitsuryoku-capitulo-1-vol-1/
-https://animecenterbr.com/youkoso-jitsuryoku-vol-1-ss-horikita-uma-certa-manha-na-piscina/
-    
-"""
 
 # Importações
 from selenium import webdriver

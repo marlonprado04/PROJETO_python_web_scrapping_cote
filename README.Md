@@ -33,7 +33,7 @@ Opção de passos 2:
 
 Opção de passos 1:
 
-   - [ ] Código acessa a página raiz contendo todos os links dos capítulos
+   - [x] Código acessa a página raiz contendo todos os links dos capítulos
    - [ ] Código varre e agrupa todos os links de acordo com a seção do volume específico
    - [ ] Código acessa cada link individualmente, renderiza o HTML e faz o scrapping do texto e imagem formatado
    - [ ] Código cria arquivo .ODT e salva as imagens e textos formatados no arquivo criado (com o nome do capítulo)

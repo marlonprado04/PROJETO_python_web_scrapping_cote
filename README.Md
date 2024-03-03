@@ -12,6 +12,19 @@ Links de exemplo:
 <https://animecenterbr.com/youkoso-jitsuryoku-capitulo-1-vol-1/>
 <https://animecenterbr.com/youkoso-jitsuryoku-vol-1-ss-horikita-uma-certa-manha-na-piscina/>
 
+Sobre a estrutura do HTML:
+
+- __Título do capítulo__
+  - Os capítulos possuem uma tag `h2` que é o `título do volume`
+  - Também pode ser uma tag `strong` dentro de uma tag `p` no início do capítulo
+- __Texto corrido__
+  - `p` são tags do texto corrido e podem ou não ter dentro de si algumas outras tags:
+    - `span` (caso tenha) é o parágrafo corrido normal
+    - `em` é o parágrafo em itálico
+    - `strong` é um parágrafo em negrito, para iniciar uma nova sessão de texto
+- __Imagens__
+  - Imagens estão em tags `img` soltas logo após tags `p` ou `div` (propaganda)
+
 ## Ideia para desenvolvimento
 
 Opção de passos 1:
